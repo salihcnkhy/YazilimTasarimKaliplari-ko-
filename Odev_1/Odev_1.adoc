@@ -1,0 +1,117 @@
+# PCL Nedir
+
+PCL, nokta bulutu üzerinde fitreleme, yüzey yapılandırma, model çıkartımı, segmentasyon işlemlerini gerçekleyebilen modern algoritmaları içermektedir.
+
+### Çok kullanılan işlemler
+
+- Filtreleme
+- Görselleştirme
+- Segmentasyon 
+
+http://www.pointclouds.org/documentation/[Buradan Diğer İşlemleri Görebilirsiniz]
+
+NOTE: Görselleştirme işlemlerinde harici olarak VTK kütüphanesi kullanılmaktadır.
+[%header,cols=2*]
+.İşlem Detayları
+|===
+|İşlem
+|İşlev
+
+|Filtreleme
+|Genel olarak nokta bulutu verisinde bulunan gürültü verileri veya istenmeyen verilerin filtrelenmesi için kullanılmaktadır 
+
+|Görselleştirme
+|Nokta bulutunun farklı renk veya farklı boyutlarda görselleştirmede kullanılmaktadır. *VTK kütüphanesi gerekmektedir*
+
+|Segmentasyon
+|Basitçe nokta bulutu verilerinin içerisindeki objelerin birbirinden ayırt edilecek şekilde renklendirilmesi. *Segmentasyonun farklı kullanım şekilleride bulunmaktadır*
+|===
+
+
+# PCL'in Ubuntu 16.04'e Kurulumu
+
+
+IMPORTANT: Bu işlemlerde *Cmake*'in kurulu olduğu varsayılmaktadır. Eğer kurulu değil ise https://cmake.org/download/[Cmake Download] bu linkten kurulumunu yapınız.
+
+NOTE: PCL, güncel olarak tüm Ubuntu sürümlerinde PPA üzerinden desteklemektedir. Terminale aşağıdaki komutları girdikten sonra PCL kullanıma hazır olacaktır
+
+Aşağıdaki komutları sırasıyla konsola giriniz.
+
+. `sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pal`
+. `sudo apt-get update`
+. `sudo apt-get install libpcl-all`
+
+WARNING: Eğer kod (2) sırasında 404 hatası alınıyor ise farklı bir yöntem olarak terminale aşağıdaki satırlar yazılabilir.
+
+ sudo apt install libpcl-dev
+ 
+Ya da
+
+ sudo apt-get install libpcl-dev
+ 
+Yazılarak PCL, Ubuntu 16.04'e indirilmiş olacaktır.
+
+
+
+# PCL'in Kullanımı 
+
+
+PCL indirildikten sonra aşağıdaki adımları izleyiniz.
+
+
+. `mkdir pcd_write_test`
+. `cd pcd_write_test`
+. `nano CMakeLists.txt`
+
+Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
+
+    cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+    project(pcd_write)
+    find_package(PCL 1.2 REQUIRED)
+    include_directories(${PCL_INCLUDE_DIRS})
+    link_directories(${PCL_LIBRARY_DIRS})
+    add_definitions(${PCL_DEFINITIONS})
+    add_executable (pcd_write pcd_write.cpp)
+    target_link_libraries (pcd_write ${PCL_LIBRARIES})
+
+
+İşlem tamamlandıktan sonra CMake dosyası oluşturulmuş olur. Bu işlemeden sonra C++ kodunu oluşturmak için aşağıdaki işlemler yapılmaldır.
+
+`nano pcd_write.cpp`
+
+Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
+
+[source,cpp]
+----
+include::main.cpp[]
+----
+
+
+Bu işlem de gerçekleştirdikten sonra CMake ve C++ kodu oluşturulmuş olur. Bu iki dosyanın derlenmesi için aşağıdaki satırlar terminale yazılmalıdır.
+
+
+. `mkdir build`
+. `cd build`
+. `cmake ..`
+. `make`
+. `./pcd_write_test`
+
+Böylece PCL kütüphanesinde faydalanılarak herhangi bir cismin nokta bulut görüntüsünü kaydetmiş oluruz.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
