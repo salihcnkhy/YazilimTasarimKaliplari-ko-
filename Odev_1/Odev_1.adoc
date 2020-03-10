@@ -1,8 +1,16 @@
-# PCL Nedir
+:toc:
+:toc-title: İçerik 
+
+## PCL Nedir
 
 PCL, nokta bulutu üzerinde fitreleme, yüzey yapılandırma, model çıkartımı, segmentasyon işlemlerini gerçekleyebilen modern algoritmaları içermektedir.
 
 ### Çok kullanılan işlemler
+
+.Sık kullanılan işlemler
+[caption="Görsel 1: "]
+image::islemler.png[İşlemler]
+
 
 - Filtreleme
 - Görselleştirme
@@ -17,16 +25,16 @@ NOTE: Görselleştirme işlemlerinde harici olarak VTK kütüphanesi kullanılma
 |İşlem
 |İşlev
 
-|Filtreleme
+|Filtreleme image:filtreleme.png[]
+
 |Genel olarak nokta bulutu verisinde bulunan gürültü verileri veya istenmeyen verilerin filtrelenmesi için kullanılmaktadır 
 
-|Görselleştirme
+|Görselleştirme image:gorsellestirme.png[]
 |Nokta bulutunun farklı renk veya farklı boyutlarda görselleştirmede kullanılmaktadır. *VTK kütüphanesi gerekmektedir*
 
-|Segmentasyon
+|Segmentasyon image:segmentasyon.png[]
 |Basitçe nokta bulutu verilerinin içerisindeki objelerin birbirinden ayırt edilecek şekilde renklendirilmesi. *Segmentasyonun farklı kullanım şekilleride bulunmaktadır*
 |===
-
 
 # PCL'in Ubuntu 16.04'e Kurulumu
 
@@ -51,10 +59,7 @@ Ya da
  
 Yazılarak PCL, Ubuntu 16.04'e indirilmiş olacaktır.
 
-
-
 # PCL'in Kullanımı 
-
 
 PCL indirildikten sonra aşağıdaki adımları izleyiniz.
 
@@ -99,8 +104,9 @@ Bu işlem de gerçekleştirdikten sonra CMake ve C++ kodu oluşturulmuş olur. B
 Böylece PCL kütüphanesinde faydalanılarak herhangi bir cismin nokta bulut görüntüsünü kaydetmiş oluruz.
 
 
+NOTE: PCL'in indirilmesi ve PCL'in kullanımı aşağıdaki videoda anlatılmaktadır.
 
-
+video::5lU6RiS4pfE[youtube ,width=640,height=400]
 
 
 
