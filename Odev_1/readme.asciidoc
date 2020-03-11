@@ -1,12 +1,14 @@
 :toc:
 :toc-title: İçerik
 
-
-:imagesdir: Odev_1/images
-
 ifdef::env-github[]
 :imagesdir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/images/
 endif::[]
+ifndef::env-github[]
+:imagesdir: ./images/
+endif::[]
+
+
 
 ifdef::env-github[]
 :tip-caption: :bulb:
