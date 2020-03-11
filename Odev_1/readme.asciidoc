@@ -3,12 +3,15 @@
 
 ifdef::env-github[]
 :imagesdir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/images/
+:sourcedir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/
+
 endif::[]
+
+
 ifndef::env-github[]
 :imagesdir: ./images/
+:sourcedir: ./
 endif::[]
-
-
 
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -17,6 +20,7 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
+
 
 [#pcl-nedir]
 == PCL Nedir
@@ -111,7 +115,7 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 .PCL ile point cloud'u PCD olarak kayıt etme
 [source,cpp]
 ----
-include::https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/main.cpp[]
+include::main.cpp[]
 ----
 
 
