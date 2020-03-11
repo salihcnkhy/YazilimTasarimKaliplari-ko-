@@ -113,7 +113,7 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
 .PCL ile point cloud'u PCD olarak kayıt etme
-[source,cpp]
+[source]
 ----
 include::{sourcedir}main.cpp[]
 ----
