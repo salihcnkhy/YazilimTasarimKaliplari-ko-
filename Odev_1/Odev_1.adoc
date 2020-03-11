@@ -147,6 +147,21 @@ video::5lU6RiS4pfE[youtube ,width=640,height=400]
 
 
 
+=== UML Diagramı
+
+.Örnek UML
+[plantuml, diagram-classes, png]     
+....
+class Human
+class Worker
+class Student
+
+
+Human <|-- Worker
+Human <|-- Student
+....
+WARNING: Verilen Diagram Sadece Örnektir
+
 
 
 
