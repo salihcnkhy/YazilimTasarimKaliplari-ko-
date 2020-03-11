@@ -1,11 +1,17 @@
 :toc:
-:toc-title: İçerik 
+:toc-title: İçerik
 
-## PCL Nedir
+
+:imagesdir: Odev_1/images
+
+
+
+[#pcl-nedir]
+== PCL Nedir
 
 PCL, nokta bulutu üzerinde fitreleme, yüzey yapılandırma, model çıkartımı, segmentasyon işlemlerini gerçekleyebilen modern algoritmaları içermektedir.
 
-### Çok kullanılan işlemler
+=== Çok kullanılan işlemler
 
 .Sık kullanılan işlemler
 [caption="Görsel 1: "]
@@ -36,7 +42,9 @@ NOTE: Görselleştirme işlemlerinde harici olarak VTK kütüphanesi kullanılma
 |Basitçe nokta bulutu verilerinin içerisindeki objelerin birbirinden ayırt edilecek şekilde renklendirilmesi. *Segmentasyonun farklı kullanım şekilleride bulunmaktadır*
 |===
 
-# PCL'in Ubuntu 16.04'e Kurulumu
+
+[#pcl-kurulum]
+== PCL'in Ubuntu 16.04'e Kurulumu
 
 
 IMPORTANT: Bu işlemlerde *Cmake*'in kurulu olduğu varsayılmaktadır. Eğer kurulu değil ise https://cmake.org/download/[Cmake Download] bu linkten kurulumunu yapınız.
@@ -59,7 +67,9 @@ Ya da
  
 Yazılarak PCL, Ubuntu 16.04'e indirilmiş olacaktır.
 
-# PCL'in Kullanımı 
+
+[#pcl-kullanım]
+== PCL'in Kullanımı 
 
 PCL indirildikten sonra aşağıdaki adımları izleyiniz.
 
@@ -86,11 +96,13 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
+.PCL ile point cloud'u PCD olarak kayıt etme
 [source,cpp]
 ----
 include::main.cpp[]
 ----
 
+NOTE: Kurulumu yapmadıysanız <<pcl-kurulum>>
 
 Bu işlem de gerçekleştirdikten sonra CMake ve C++ kodu oluşturulmuş olur. Bu iki dosyanın derlenmesi için aşağıdaki satırlar terminale yazılmalıdır.
 
