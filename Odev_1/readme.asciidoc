@@ -112,8 +112,13 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
+:includedir: _includes
+
+include::{includedir}/main.cpp[]
+
+
 .PCL ile point cloud'u PCD olarak kayıt etme
-[source]
+[source,cpp]
 ----
 include::{sourcedir}/main.cpp[]
 ----
@@ -142,10 +147,20 @@ video::5lU6RiS4pfE[youtube ,width=640,height=400]
 
 
 
+=== UML Diagramı
+
+.Örnek UML
+[plantuml, diagram-classes, png]     
+....
+class Human
+class Worker
+class Student
 
 
-
-
+Human <|-- Worker
+Human <|-- Student
+....
+WARNING: Verilen Diagram Sadece Örnektir
 
 
 
