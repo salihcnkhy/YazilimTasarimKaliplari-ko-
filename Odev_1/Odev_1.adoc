@@ -1,11 +1,16 @@
 :toc:
 :toc-title: İçerik
 
-
-:imagesdir: Odev_1/images
-
 ifdef::env-github[]
 :imagesdir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/images/
+:sourcedir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/
+
+endif::[]
+
+
+ifndef::env-github[]
+:imagesdir: ./images/
+:sourcedir: ./
 endif::[]
 
 ifdef::env-github[]
@@ -15,6 +20,7 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
+
 
 [#pcl-nedir]
 == PCL Nedir
@@ -106,10 +112,15 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
+:includedir: _includes
+
+include::{includedir}/main.cpp[]
+
+
 .PCL ile point cloud'u PCD olarak kayıt etme
 [source,cpp]
 ----
-include::main.cpp[]
+include::{sourcedir}/main.cpp[]
 ----
 
 
@@ -130,11 +141,6 @@ Böylece PCL kütüphanesinde faydalanılarak herhangi bir cismin nokta bulut g�
 NOTE: PCL'in indirilmesi ve PCL'in kullanımı aşağıdaki videoda anlatılmaktadır.
 
 video::5lU6RiS4pfE[youtube ,width=640,height=400]
-
-
-
-
-
 
 
 
