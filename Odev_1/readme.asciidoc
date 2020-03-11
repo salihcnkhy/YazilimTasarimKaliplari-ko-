@@ -1,5 +1,20 @@
 :toc:
-:toc-title: İçerik 
+:toc-title: İçerik
+
+
+:imagesdir: Odev_1/images
+
+ifdef::env-github[]
+:imagesdir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/images/
+endif::[]
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 [#pcl-nedir]
 == PCL Nedir
@@ -91,10 +106,12 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
+.PCL ile point cloud'u PCD olarak kayıt etme
 [source,cpp]
 ----
 include::main.cpp[]
 ----
+
 
 NOTE: Kurulumu yapmadıysanız <<pcl-kurulum>>
 
