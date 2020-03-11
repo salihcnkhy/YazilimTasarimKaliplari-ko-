@@ -3,7 +3,7 @@
 
 ifdef::env-github[]
 :imagesdir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/images/
-:sourcedir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1/
+:sourcedir: https://github.com/salihcnkhy/yazilim-tasarim-kaliplari/blob/master/Odev_1
 
 endif::[]
 
@@ -96,6 +96,7 @@ PCL indirildikten sonra aşağıdaki adımları izleyiniz.
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
 
+....
     cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
     project(pcd_write)
     find_package(PCL 1.2 REQUIRED)
@@ -104,17 +105,13 @@ Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e b
     add_definitions(${PCL_DEFINITIONS})
     add_executable (pcd_write pcd_write.cpp)
     target_link_libraries (pcd_write ${PCL_LIBRARIES})
-
+....
 
 İşlem tamamlandıktan sonra CMake dosyası oluşturulmuş olur. Bu işlemeden sonra C++ kodunu oluşturmak için aşağıdaki işlemler yapılmaldır.
 
 `nano pcd_write.cpp`
 
 Terminalde açılan ekrana aşağıdaki komutları yapıştırarak CTRL+X’ e basın 2 kere onaylayın.
-
-:includedir: _includes
-
-include::{includedir}/main.cpp[]
 
 
 .PCL ile point cloud'u PCD olarak kayıt etme
