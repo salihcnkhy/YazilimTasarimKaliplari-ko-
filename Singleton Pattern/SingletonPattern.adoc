@@ -1,0 +1,152 @@
+
+[source,swift]
+----
+
+import Foundation
+
+protocol Car{ //<1>
+    
+    private var manufucturer : String{ get  set}
+    func drive()
+}
+
+
+class SportsCar : Car { //<2>
+   private var manufucturer: String
+    
+    init(manufucturer : String){
+        self.manufucturer = manufucturer
+    }
+    func drive() {
+        print("Sports car \(manufucturer) is driving")
+        
+    }
+    
+}
+
+class SedanCar : Car{ //<2>
+    var manufucturer: String
+    init(manufucturer : String){
+        self.manufucturer = manufucturer
+    }
+    func drive() {
+        print("Sedan car \(manufucturer) is driving")
+    }
+}
+
+
+enum CarType{ //<3>
+    case Sport
+    case Sedan
+}
+
+class CarManagement  { 
+    private let queue = DispatchQueue(label: "Concurrent",attributes: .concurrent) //<4>
+    private var allCars : [Car] = []
+    static let shared = CarManagement() //<5>
+    private init(){} //<6>
+    
+    func addCar(type : CarType , manufucturer : String){
+        
+        queue.async(flags : .barrier) { //<7>
+            switch type {
+            case .Sedan:
+                self.allCars.append(SedanCar(manufucturer: manufucturer))
+                break
+            case .Sport:
+                self.allCars.append(SportsCar(manufucturer: manufucturer))
+                break
+            }
+        }
+        
+    }
+    
+    func getAllCar()->[Car]{
+        var cars : [Car]!
+        queue.sync  { //<8>
+            cars = allCars
+        }
+        return cars
+    }
+    
+    func getCar(manufucturer : String)->Car{
+        var car : Car!
+        queue.sync {
+            car = allCars.filter{
+                $0.manufucturer == manufucturer
+                }[0]
+        }
+        return car
+    }
+    func removeCar(manufucturer : String){
+        
+        queue.async(flags : .barrier){
+            self.allCars.removeAll{
+                $0.manufucturer == manufucturer
+            }
+        }
+    }
+    
+    func printAllCars(){
+        queue.sync {
+            for car in allCars {
+                print(car.manufucturer)
+                car.drive()
+            }
+        }
+    }
+}
+
+----
+<1> Car'ı protocol olarak tanımlanması. Bu  tanımlamayı Abstract class tanımlamasına benzetebiliriz. 
+<2> SportsCar ve SedanCar classlarına Car protocol'ünün katılım olarak atanması.
+<3> İşlem kolaylığı için enum tanımlaması.
+<4> DispatchQueue tipinde değişken oluşturulması. Thread işlemlerinde kullanılacak.
+<5> CarManagement class'ındaki fonksiyonlara uluşmak için static olarak tanımlanmış CarManagement sınıfının 'shared' değişkenine atamasının yapılması.
+<6> Dışarıdan obje oluşturulmasını engellemek için private tanımlaması yapılıyor constracture'a.
+<7> async olarak bir kod bloğu oluştururken içerisine yazdığımız .barrier argümanı diğer thread'ların yeni işleme başlamalarını bloklar. Böylece istediğimiz tüm verileri ekleyene kadar o kod bloğu devam eder. Genelde ekleme, silme işlemlerinde bu şekilde kullanılır.
+<8> Verileri sync olarak almaya çalışacağı için sync kod bloğu bitene kadar queue değişkeni üzerinden başka bir işlem verilemez.
+
+
+
+
+[uml,file="umlSingleton.png"]
+--
+@startuml
+left to right direction
+
+enum CarType {
+	SportsCar
+	SedanCar
+}
+abstract Car{
+    + String manufucturer {get set}
+    + drive()
+}
+class SportsCar{
+}
+class SedanCar {
+
+}
+
+class CarManagement{
+    + CarManagement : {static} shared 
+    - queue
+    - allCars[] 
+    - init()
+    + addCar(CarType)
+    + getAllCar()
+    + getCar()
+    + removeCar()
+    + printAllCars()
+}
+
+SportsCar ..|> Car
+SedanCar ..|> Car
+CarManagement -- CarType 
+
+
+@enduml
+--  
+
+

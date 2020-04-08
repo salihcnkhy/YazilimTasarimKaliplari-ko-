@@ -1,0 +1,124 @@
+[source,swift]
+----
+
+import Foundation
+
+protocol Car{ //<1>
+    
+    private var manufucturer : String{ get  set}
+    func drive()
+}
+
+
+class SportsCar : Car { //<2>
+   private var manufucturer: String
+    
+    init(manufucturer : String){
+        self.manufucturer = manufucturer
+    }
+    func drive() {
+        print("Sports car \(manufucturer) is driving")
+        
+    }
+    
+}
+
+class SedanCar : Car{ //<2>
+    var manufucturer: String
+    init(manufucturer : String){
+        self.manufucturer = manufucturer
+    }
+    func drive() {
+        print("Sedan car \(manufucturer) is driving")
+    }
+}
+
+
+enum CarType{ //<3>
+    case Sport
+    case Sedan
+}
+
+//MARK: Abstract Factory Pattern
+class CarFactory{ <4>
+    func createCar(type : CarType , manufucturer : String)->Car{ <5>
+        switch type {
+        case .Sedan:
+            return SedanCar(manufucturer: manufucturer)
+        case .Sport:
+            return SportsCar(manufucturer: manufucturer)
+        }
+    }
+}
+
+//MARK: Factory Pattern
+protocol CarFactory2{ <6>
+    func createCar(manufucturer:String)->Car
+}
+
+class SportCarFactory : CarFactory2{ <7>
+    func createCar(manufucturer:String) -> Car {
+        return SportsCar(manufucturer: manufucturer)
+    }
+}
+class SedanCarFactory : CarFactory2{ <8>
+    func createCar(manufucturer:String) -> Car {
+        return SedanCar(manufucturer: manufucturer)
+    }
+}
+----
+<1> Car'ı protocol olarak tanımlanması. Bu  tanımlamayı Abstract class tanımlamasına benzetebiliriz. 
+<2> SportsCar ve SedanCar classlarına Car protocol'ünün katılım olarak atanması.
+<3> İşlem kolaylığı için enum tanımlaması.
+<4> Başka bir classtan kalıtılmadan Car sınırlarından bağımsız class.
+<5> Girilen carType'a göre Car tipinde, SedanCar veya SportsCar döndüren fonksiyon
+<6> CarFactory2 protocol'u abstract class olarak düşünebiliriz.
+<7> CarFactory2'nin SportsCarFactory ve SedanCarFactory' ye kalıtılması. Böylelikle createCar fonksiyonu override edilebiliyor şeklinde düşünülebilir.
+
+[uml,file="umlFactoryPattern.png"]
+--
+@startuml
+enum CarType {
+	SportsCar
+	SedanCar
+}
+abstract Car{
+    + String manufucturer {get set}
+    + drive()
+}
+package "Types" {
+class SportsCar{
+}
+class SedanCar {
+}
+}
+
+class CarFactory{
+    + createCar(CarType)
+}
+
+abstract CarFactory2{
+    + createCar(String)
+}
+
+class SportCarFactory{
+}
+
+class SedanCarFactory{
+}
+
+SportsCar ..|> Car
+SedanCar ..|> Car
+SportCarFactory ..|> CarFactory2
+SedanCarFactory ..|> CarFactory2
+CarFactory -- CarType  
+CarFactory -- Types : creates
+SportCarFactory -- SportsCar : creates
+SedanCarFactory -- SedanCar : creates
+
+
+@enduml
+--  
+
+
+
