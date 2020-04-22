@@ -1,0 +1,161 @@
+[source,swift]
+----
+
+protocol CoffeeBuilder { <1>
+    
+    func setSugar() -> CoffeeBuilder
+    func setMilky() -> CoffeeBuilder
+    func getCoffee()->Coffee
+}
+
+
+class Coffee { <2>
+    var isMilky : Bool?
+    var sugarCount : Int?
+    
+    func set(_ milky : Bool){
+        self.isMilky = milky
+    }
+    func set(_ sugarCount : Int){
+        self.sugarCount = sugarCount
+    }
+}
+
+
+class AmericanoBuilder : CoffeeBuilder{ <3>
+    
+    private var coffee : Coffee
+    init() {
+        coffee = Coffee()
+    }
+    
+    
+    func getCoffee() -> Coffee {
+        return coffee
+    }
+    
+    func setSugar() -> CoffeeBuilder {
+        coffee.set(0)
+        return self
+        
+    }
+    
+    func setMilky() -> CoffeeBuilder {
+        coffee.set(false)
+        return self
+        
+    }
+    
+}
+class LatteBuilder : CoffeeBuilder{ <3>
+    
+    private var coffee : Coffee
+    init() {
+        coffee = Coffee()
+    }
+    
+    
+    func getCoffee() -> Coffee {
+        return coffee
+    }
+    
+    func setSugar() -> CoffeeBuilder {
+        
+        coffee.set(5)
+        return self
+    }
+    
+    func setMilky() -> CoffeeBuilder {
+        
+        coffee.set(true)
+        return self
+        
+    }
+    
+    
+}
+
+
+class Barista { <4>
+    
+    
+    private var builder : CoffeeBuilder 
+    
+    init(builder : CoffeeBuilder) {
+        self.builder = builder
+    }
+    func updateBuilder(builder : CoffeeBuilder){
+        self.builder = builder
+    }
+    func getCoffee() -> Coffee {
+        return builder.getCoffee()
+    }
+}
+
+
+let latteBuilder = LatteBuilder().setMilky().setSugar()
+let americanoBuilder = AmericanoBuilder().setMilky().setSugar()
+
+let barista = Barista(builder: latteBuilder)
+
+barista.getCoffee()
+
+barista.updateBuilder(builder: americanoBuilder)
+
+barista.getCoffee()
+
+----
+<1> CoffeeBuilder protocol' u interface olarak düşünülebilir. Builder fonksiyonlarının tanımlaması yapılmıştır.
+<2> İşlemlerin sonunda ürün olarak çıkacak objemizin sınıfı.
+<3> Coffe'yi Americano veya Latte olarak üreten CoffeeBuilder'dan türetilmiş Builder sınıfları.
+<4> Barista, ürünümüzün belli Builder'a göre oluşumundan ve ürünün referansını bize döndürmeden sorumlu. Constructur'da bir CoffeeBuilder almakta yani <3>. maddedeki sınıflardan birtanesini.
+
+NOTE: Bazı fonksiyonlar *kendisini* döndürmektedir. Bunun sebebi k**ullanım kolaylığından** ve *satır kalabalığı yapmamasından* dolayı yapılmıştır. 
+
+[uml,file="umlBuilderDesignPattern.png"]
+--
+@startuml
+interface CoffeeBuilder{
+   + setSugar() : CoffeeBuilder
+   + setMilky() : CoffeeBuilder
+   + getCoffee() : Coffee
+}
+class Coffee{
+    
+    - isMilky : Bool
+    - sugarCount : Int
+    + set(Bool)
+    + set(Int)
+}
+
+package "Builders" {
+
+class AmericanoBuilder{
+}
+
+class LatteBuilder {
+}
+
+}
+
+class Barista {
+    - builder : CoffeeBuilder
+    + init(builder : CoffeeBuilder)
+    + updateBuilder(CoffeeBuilder)
+    + buildCoffee() : Barista
+    + getCoffee() : Coffee
+
+}
+
+AmericanoBuilder --|> CoffeeBuilder
+LatteBuilder --|> CoffeeBuilder
+Barista o-- CoffeeBuilder
+Coffee <-- Builders : <<create>> 
+
+@enduml
+--  
+
+
+
+
+
