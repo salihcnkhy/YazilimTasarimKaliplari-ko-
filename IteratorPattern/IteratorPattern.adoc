@@ -1,0 +1,128 @@
+== Iterator Pattern
+
+
+[caption = "Class : "]
+.WordsCollection
+=====
+
+*Değerleri arasında gezilecek sınıf*     
+
+[source,swift]
+----
+
+class WordsCollection {
+    
+    fileprivate lazy var items = [String]()
+    
+    func append(_ item: String) {
+        self.items.append(item)
+    }
+}
+
+extension WordsCollection: Sequence {
+    
+    func makeIterator() -> WordsIterator {
+        return WordsIterator(self)
+    }
+}
+
+
+----
+
+
+
+=====
+
+[caption = "Class : "]
+.WordsIterator
+=====
+
+*Custom Iterator olarak tanımlanan sınıf*
+
+[source,swift]
+----
+class WordsIterator: IteratorProtocol {
+    
+    private let collection: WordsCollection
+    private var index = 0
+    init(_ collection: WordsCollection) {
+        self.collection = collection
+    }
+    
+    func next() -> String? {
+        defer { index += 1 }
+        return getCurrentElement()
+    }
+    func getCurrentElement() -> String?{
+        return index < collection.items.count ? collection.items[index] : nil
+    }
+}
+
+
+----
+
+
+=====
+
+=====
+*Kodun kullanımı*
+
+[source,swift]
+----
+
+let words = WordsCollection()
+words.append("First")
+words.append("Second")
+words.append("Third")
+let iterator = words.makeIterator()
+while iterator.getCurrentElement() != nil {
+    print(iterator.next() ?? "nil")
+}
+----
+
+[uml,file="iteratorPattern.png"]
+--
+@startuml
+package "Protocols" {
+
+interface IteratorProtocol{
+}
+interface Sequence{
+}
+}
+package "Classes" {
+
+class WordsCollection{
+    ~ items : [String]
+    + append(item : String)
+    + makeIterator() : WordsIterator
+}
+
+class WordsIterator{
+    - collection : WordsCollection
+    - index : Int
+    + init(collection : WordsCollection)
+    + next() : String? 
+    + getCurrentElement() : String?
+}
+
+}
+
+WordsIterator ..|> IteratorProtocol
+WordsCollection ..|> Sequence
+WordsCollection .> WordsIterator : <<create>>
+WordsCollection .o WordsIterator : ""
+
+
+@enduml
+--  
+
+
+
+
+
+
+
+
+
+

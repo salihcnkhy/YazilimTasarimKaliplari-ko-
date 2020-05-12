@@ -1,0 +1,212 @@
+== Observer Pattern
+
+
+[caption = "Protocol : "]
+.ObservableProtocol
+=====
+
+*Observable Object için temel protocol*     
+
+[source,swift]
+----
+ protocol ObservableProtocol : class {
+    var observers : [ObserverProtocol] { get set }
+    
+    func addObserver(_ observer: ObserverProtocol)
+    func removeObserver(_ observer: ObserverProtocol)
+    func notifyObservers(_ observers: [ObserverProtocol])
+}
+
+
+----
+
+
+
+=====
+
+[caption = "Protocol : "]
+.ObserverProtocol
+=====
+
+*Observer Object için temel protocol*
+
+[source,swift]
+----
+ protocol ObserverProtocol {
+    
+    var id : UUID { get set }
+    func onValueChanged(_ value: Any?)
+}
+
+----
+
+
+=====
+
+[caption = "Class : "]
+.Observable
+=====
+*Generic olarak tanımlanmış observable object sınıfı*
+
+[source,swift]
+----
+  class Observable<T> : ObservableProtocol {
+    
+    var value : T {
+        didSet {
+            self.notifyObservers(self.observers)
+        }
+    }
+    
+    internal var observers : [ObserverProtocol] = []
+    
+    init(value: T) {
+        self.value = value
+    }
+    
+    func addObserver(_ observer: ObserverProtocol) {
+        guard self.observers.contains(where: { $0.id == observer.id }) == false else {
+            return
+        }
+        self.observers.append(observer)
+    }
+    
+    func removeObserver(_ observer: ObserverProtocol) {
+        guard let index = self.observers.firstIndex(where: { $0.id == observer.id }) else {
+            return
+        }
+        self.observers.remove(at: index)
+        
+    }
+    
+    func notifyObservers(_ observers: [ObserverProtocol]) {
+        observers.forEach({ $0.onValueChanged(value)})
+    }
+    
+    deinit {
+        observers.removeAll()
+    }
+}
+----
+
+ 
+=====
+
+
+
+[caption = "Class : "]
+.List
+=====
+*Observable Object tanımlanan sınıf*
+
+[source,swift]
+----
+ class List {
+    var numberOfItems : Observable<Int>
+    
+    init(numberOfItems: Int) {
+        self.numberOfItems = Observable(value: numberOfItems)
+    }
+    
+    func addItemToList() {
+        numberOfItems.value = numberOfItems.value + 1
+    }
+}
+----
+
+
+=====
+
+
+
+[caption = "Class : "]
+.ListViewModel
+=====
+*Observer olacak sınıf*
+
+[source,swift]
+----
+class ListViewModel : ObserverProtocol {
+    
+    var id = UUID()
+    func onValueChanged(_ value: Any?) {
+        print("new listItem \(value)")
+    }
+}
+
+
+----
+
+
+=====
+
+
+=====
+*Observable ve observer sınıf oluştururarak kodun kullanımı. Çıktı olarak "new listItem 1" yazacaktır.*
+
+[source,swift]
+----
+let userList = List(numberOfItems: 0)
+let listViewModel = ListViewModel()
+userList.numberOfItems.addObserver(listViewModel)
+
+userList.addItemToList()
+----
+=====
+
+[uml,file="observerPattern.png"]
+--
+@startuml
+package "Protocols" {
+
+interface ObservableProtocol{
+   + observers : [ObserverProtocol]
+   + addObserver(observer: ObserverProtocol)
+   + removeObserver(observer: ObserverProtocol)
+   +notifyObservers(observers: [ObserverProtocol])
+}
+interface ObserverProtocol{
+    
+    + id : UUID
+    + onValueChanged(value : Any?)
+}
+}
+package "Classes" {
+
+class Observable<T>{
+    + init(value : T)
+    + value : T 
+    - didSetValue()
+    - deinit()
+}
+
+class List{
+    + numberOfItems : Observable<Int>
+    + init(numberOfItems : Int)
+    +addItemToList()
+    
+}
+
+class ListViewModel {
+}
+
+}
+
+ListViewModel ..|> ObserverProtocol
+List o- Observable : <<has>>
+Observable ..|> ObservableProtocol
+ObservableProtocol o-- "0..*" ObserverProtocol
+
+
+@enduml
+--  
+
+
+
+
+
+
+
+
+
+
